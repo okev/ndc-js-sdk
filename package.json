@@ -1,0 +1,19 @@
+{
+  "name": "ndc",
+  "version": "1.0.0",
+  "description": "NDC-compliant API wrapper",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha -R spec ./test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xenomuta/ndc-js.git"
+  },
+  "author": "Rilke Petrosky Ulloa <xenomuta@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xenomuta/ndc-js/issues"
+  },
+  "homepage": "https://github.com/xenomuta/ndc-js#readme"
+}
