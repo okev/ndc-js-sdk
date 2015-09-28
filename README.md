@@ -4,9 +4,9 @@ A Node.js client wrapper for IATA's NDC API.
 
 ## Installation
 
-As usual...
+Use npm to install from repo
 
-    npm install https://github.com/iata-ndc/ndc-js-sdk
+    npm install https://github.com/iata-ndc/ndc-js-sdk.git --save
 
 ## Usage
 
