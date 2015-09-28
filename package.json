@@ -4,16 +4,22 @@
   "description": "NDC-compliant API wrapper",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha -R spec ./test"
+    "test": "jshint *.js lib/**/*.js && NODE_ENV=test mocha -R spec ./test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xenomuta/ndc-js.git"
+    "url": "git+https://github.com/iata-ndc/ndc-js-sdk.git"
   },
   "author": "Rilke Petrosky Ulloa <xenomuta@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/xenomuta/ndc-js/issues"
   },
-  "homepage": "https://github.com/xenomuta/ndc-js#readme"
+  "homepage": "https://github.com/xenomuta/ndc-js#readme",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "easyxml": "^1.0.0",
+    "request": "^2.64.0",
+    "xml2js": "^0.4.12"
+  }
 }
