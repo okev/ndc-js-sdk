@@ -1,10 +1,13 @@
 'use strict';
 
 var fs = require('fs');
+var util = require('util');
 var request = require('request');
 var debug = require('./lib/debug');
 var easyxml = new(require('easyxml'))();
-var xml2js = new require('xml2js').Parser();
+var xml2js = new require('xml2js').Parser({
+  explicitArray: false
+});
 var XMLProlog = '<?xml version="1.0" encoding="utf-8"?>';
 
 /* Main module */
@@ -17,14 +20,15 @@ var NDC = function (config) {
   ndc.echoToken = '8fdb1c621a7a4454aa3360556e7784d5';
 
   var makeRequest = function (body, cb, prolog) {
-    debug.info('Posting message to %s: %s', ndc.config.endpoint, body);
+    var url = 'http://' + ndc.config.endpoint + '/dondc';
+    debug.info('Posting message to %s:\n%s', url, body);
     request({
-      uri: ndc.config.endpoint,
+      uri: url,
       method: 'POST',
-      multipart: [{
-        'Content-Type': 'application/xml',
-        body: (prolog ? XMLProlog : '') + body
-      }]
+      body: (prolog ? XMLProlog : '') + body,
+      headers: {
+        'Content-Type': 'application/xml'
+      }
     }, function (err, res, body) {
       if (err) {
         debug.error('ERROR:', err.name, err.message);
@@ -32,16 +36,38 @@ var NDC = function (config) {
       }
 
       debug.info('Status Code: %s', res.statusCode);
-      debug.info('Raw Data:', res.body);
-      xml2js.parseString(res.body, cb);
+      debug.info('Headers %j:', res.headers);
+      debug.info('Raw Body:\n', body);
+      xml2js.parseString(res.body, function (err, data) {
+        if (err || !data) {
+          err = err || new Error('Empty Response');
+        }
+
+        var responseType = Object.keys(data)[0];
+        if (data[responseType].Errors && data[responseType].Errors.Error) {
+          err = data[responseType].Errors.Error;
+          err = new Error(((err instanceof Array) ? err[0] : err) || 'Unknown Error');
+        }
+
+        if (err) {
+          debug.error(err);
+          cb(err);
+        } else {
+          debug.info('%s message:\n%j', responseType, data);
+          cb(null, data);
+        }
+      });
     }).on('error', function (err) {
       cb(err);
     });
   };
 
   ndc.messages = fs.readdirSync(__dirname + '/lib/messages').reduce(function (messages, file) {
-    var name = file.replace(/\.js/, '');
+    if (!/\.js$/.test(file)) {
+      return messages;
+    }
 
+    var name = file.replace(/\.js/, '');
     debug.info('Loading "%s" message handler', name + 'RQ');
     messages[name] = function (data) {
       data = data || {};
@@ -51,14 +77,6 @@ var NDC = function (config) {
         result[key] = data[key];
         return result;
       }, {
-        /* XML message attributes */
-        _xmlns: 'http://www.iata.org/IATA/EDIST',
-        '_xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-        '_xsi:schemaLocation': 'http://www.iata.org/IATA/EDIST ../' + name + 'RQ.xsd',
-        _EchoToken: ndc.echoToken,
-        _TimeStamp: new Date(),
-        _Version: '1.1.5',
-        _TransactionIdentifier: ndc.transactionID,
         /* Common config */
         transactionID: ndc.transactionID,
         airline: ndc.config.airline,
@@ -67,7 +85,18 @@ var NDC = function (config) {
         countryCode: ndc.config.countryCode,
         cityCode: ndc.config.cityCode
       });
-      var result = messageHandler(messageData);
+      var result = util._extend(messageHandler(messageData),
+        /* XML message attributes */
+        {
+          _xmlns: 'http://www.iata.org/IATA/EDIST',
+          '_xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+          '_xsi:schemaLocation': 'http://www.iata.org/IATA/EDIST ../' + name + 'RQ.xsd',
+          _EchoToken: ndc.echoToken,
+          _TimeStamp: (new Date()).toISOString(),
+          _Version: '1.1.5',
+          _TransactionIdentifier: ndc.transactionID
+        });
+
       var toXML = function toXML(pretty, prolog) {
         easyxml.config.rootElement = name + 'RQ';
         var xml = easyxml.render(result);
@@ -109,7 +138,8 @@ var NDC = function (config) {
   }, {});
 
   ndc.request = function (message, data, callback) {
-    ndc.messages[message](data, callback);
+    var msg = ndc.messages[message](data);
+    msg.request(callback);
   };
 };
 
