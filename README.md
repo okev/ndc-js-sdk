@@ -41,10 +41,10 @@ var ndc = new NDC(require('./config.json'));
 var reqData = {
     departure: {
         date: new Date('2016-01-01'),
-        airportCode: 'JFK'
+        airportCode: 'MUC'
     },
     arrival: {
-        airportCode: 'AILA'
+        airportCode: 'LHR'
     }
 };
 
@@ -59,14 +59,15 @@ Or if you need to work with message body:
 ```javascript
 var message = ndc.messages.AirShopping(reqData);
 
-// check JSON message.
+// print JSON message.
 console.log(message.toJSON());
-// check pretty XML code.
+// print pretty XML code.
 console.log(message.toXML(true));
 // forced XML body
 message.forceBody(message.toXML().replace(/thisString/g, 'thatString'))
-
+// make request
 message.request(function (err, response) {
+    // view response
     console.log(response); 
 });
 ```
