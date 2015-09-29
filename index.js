@@ -4,11 +4,13 @@ var fs = require('fs');
 var util = require('util');
 var request = require('request');
 var debug = require('./lib/debug');
-var easyxml = new(require('easyxml'))();
+var easyxml = new(require('easyxml'))({
+  unwrappedArrays: true
+});
 var xml2js = new require('xml2js').Parser({
   explicitArray: false
 });
-var XMLProlog = '<?xml version="1.0" encoding="utf-8"?>';
+var XMLProlog = '<?xml version="1.0" encoding="utf-8"?>\n';
 
 /* Main module */
 var NDC = function (config) {
@@ -21,17 +23,18 @@ var NDC = function (config) {
 
   var makeRequest = function (body, cb, prolog) {
     var url = 'http://' + ndc.config.endpoint + '/dondc';
+    body = (prolog ? XMLProlog : '') + body;
     debug.info('Posting message to %s:\n%s', url, body);
     request({
       uri: url,
       method: 'POST',
-      body: (prolog ? XMLProlog : '') + body,
+      body: body,
       headers: {
         'Content-Type': 'application/xml'
       }
     }, function (err, res, body) {
       if (err) {
-        debug.error('ERROR:', err.name, err.message);
+        debug.error('Error:', err.name, err.message);
         return cb(err);
       }
 
@@ -50,7 +53,7 @@ var NDC = function (config) {
         }
 
         if (err) {
-          debug.error(err);
+          debug.error('Error:', err.stack);
           cb(err);
         } else {
           debug.info('%s message:\n%j', responseType, data);
@@ -104,7 +107,7 @@ var NDC = function (config) {
           xml.replace(/\n\s+/g, '');
         }
         if (prolog) {
-          xml = XMLProlog + (pretty ? '\n' : '') + xml;
+          xml = XMLProlog + xml;
         }
         return xml;
       };
@@ -137,9 +140,9 @@ var NDC = function (config) {
     return messages;
   }, {});
 
-  ndc.request = function (message, data, callback) {
+  ndc.request = function (message, data, callback, prolog) {
     var msg = ndc.messages[message](data);
-    msg.request(callback);
+    msg.request(callback, prolog);
   };
 };
 
