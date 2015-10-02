@@ -1,9 +1,11 @@
 var NDC = require('ndc');
 var ndc = new NDC({
+  latitude: 38.89756,
+  longitude: -77.03650,
+  providerName: 'KRONOS NDC GATEWAY',
   courrencyCode: 'EUR',
   countryCode: 'US',
   cityCode: 'WAS',
-  providerName: 'KRONOS NDC GATEWAY',
   endpoint: 'kronos.jrtechnologies.com',
   agency: {
     IATANumber: '98417900',
@@ -39,19 +41,19 @@ var reqData = {
   }],
   cabin: 'C' /* bussiness class */ ,
   travelers: [
-    /* two adults */
+    /* two anonymous adults */
     {
       anonymous: true,
-      count: 1,
-      type: 'ADT'
+      count: 2,
+      typthe: 'ADT'
     },
-    /* three children */
+    /* three anonymous children */
     {
       anonymous: true,
-      count: 1,
-      type: 'CNN'
+      count: 3,
+      typthe: 'CNN'
     },
-    /* John George Smith */
+    /* One identified passanger */
     {
       key: 'KS1' /* ??? */ ,
       type: 'ADT',
@@ -83,7 +85,10 @@ var reqData = {
   ]
 };
 
+// console.log(ndc.messages.AirShopping(reqData).toXML(true, true));
+// explota();
 // console.log('Raw XML:', ndc.AirShopping(reqData).toXML(true));
+require('fs').writeFileSync('./NDCSampleMessages/debug.xml', ndc.messages.AirShopping(reqData).toXML(true, true));
 ndc.request('AirShopping', reqData, function (err, data) {
   if (err) {
     console.error(err);

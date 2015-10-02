@@ -5,7 +5,8 @@ var util = require('util');
 var request = require('request');
 var debug = require('./lib/debug');
 var easyxml = new(require('easyxml'))({
-  unwrappedArrays: true
+  unwrappedArrays: true,
+  indent: 2
 });
 var xml2js = new require('xml2js').Parser({
   explicitArray: false
@@ -49,7 +50,7 @@ var NDC = function (config) {
         var responseType = Object.keys(data)[0];
         if (data[responseType].Errors && data[responseType].Errors.Error) {
           err = data[responseType].Errors.Error;
-          err = new Error(((err instanceof Array) ? err[0] : err) || 'Unknown Error');
+          err = new Error(((err instanceof Array) ? err[0] : err._) || 'Unknown Error');
         }
 
         if (err) {
@@ -73,21 +74,35 @@ var NDC = function (config) {
     var name = file.replace(/\.js/, '');
     debug.info('Loading "%s" message handler', name + 'RQ');
     messages[name] = function (data) {
-      data = data || {};
       debug.info('Requesting "%s" message with data: %j', name, data);
       var messageHandler = require(__dirname + '/lib/messages/' + file);
-      var messageData = Object.keys(data).reduce(function buildMessageData(result, key) {
-        result[key] = data[key];
-        return result;
-      }, {
+      var messageData = util._extend({
         /* Common config */
         transactionID: ndc.transactionID,
+        providerName: ndc.config.providerName,
+        latitude: ndc.config.latitude,
+        longitude: ndc.config.longitude,
         airline: ndc.config.airline,
         agency: ndc.config.agency,
         courrencyCode: ndc.config.courrencyCode,
         countryCode: ndc.config.countryCode,
         cityCode: ndc.config.cityCode
-      });
+      }, data || {});
+      /*var messageData = Object.keys(data || {}).reduce(function buildMessageData(result, key) {
+        result[key] = data[key];
+        return result;
+      }, {
+        transactionID: ndc.transactionID,
+        providerName: ndc.config.providerName,
+        latitude: ndc.config.latitude,
+        longitude: ndc.config.longitude,
+        airline: ndc.config.airline,
+        agency: ndc.config.agency,
+        courrencyCode: ndc.config.courrencyCode,
+        countryCode: ndc.config.countryCode,
+        cityCode: ndc.config.cityCode
+      });*/
+
       var result = util._extend(messageHandler(messageData),
         /* XML message attributes */
         {
