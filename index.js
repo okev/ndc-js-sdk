@@ -86,7 +86,8 @@ var NDC = function (config) {
                 agency: ndc.config.agency,
                 courrencyCode: ndc.config.courrencyCode,
                 countryCode: ndc.config.countryCode,
-                cityCode: ndc.config.cityCode
+                cityCode: ndc.config.cityCode,
+                now: new Date()
             }, data || {});
             /*var messageData = Object.keys(data || {}).reduce(function buildMessageData(result, key) {
         result[key] = data[key];
