@@ -85,10 +85,11 @@ var reqData = {
   ]
 };
 
-// console.log(ndc.messages.AirShopping(reqData).toXML(true, true));
-// explota();
-// console.log('Raw XML:', ndc.AirShopping(reqData).toXML(true));
-require('fs').writeFileSync('./NDCSampleMessages/debug.xml', ndc.messages.AirShopping(reqData).toXML(true, true));
+/*
+var message = ndc.messages.AirShopping(reqData);
+require('fs').writeFileSync('/tmp/debug.xml', message.toXML(true, true));
+message.request(function (err, data) {
+*/
 ndc.request('AirShopping', reqData, function (err, data) {
   if (err) {
     console.error(err);
