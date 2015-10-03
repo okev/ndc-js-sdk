@@ -1,4 +1,4 @@
-var NDC = require('ndc');
+var NDC = require('ndc-js-sdk');
 var ndc = new NDC({
     latitude: 38.89756,
     longitude: -77.03650,
