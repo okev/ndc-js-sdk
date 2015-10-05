@@ -1,7 +1,7 @@
 {
-  "name": "ndc",
-  "version": "1.0.0",
-  "description": "NDC-compliant API wrapper",
+  "name": "ndc-client",
+  "version": "0.1.0",
+  "description": "IATA NDC-compliant API wrapper",
   "main": "index.js",
   "scripts": {
     "test": "jshint *.js lib/**/*.js && NODE_ENV=test mocha -R spec ./test"
@@ -13,9 +13,9 @@
   "author": "Rilke Petrosky Ulloa <xenomuta@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xenomuta/ndc-js/issues"
+    "url": "https://github.com/iata-ndc/ndc-js/issues"
   },
-  "homepage": "https://github.com/xenomuta/ndc-js#readme",
+  "homepage": "https://github.com/iata-ndc/ndc-js#readme",
   "dependencies": {
     "debug": "^2.2.0",
     "easyxml": "^1.0.0",
