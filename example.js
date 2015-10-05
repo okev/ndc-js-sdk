@@ -1,196 +1,348 @@
-var NDC = require('ndc');
-var ndc = new NDC({
+var NDC = require('ndc-js-sdk');
+var kronos = new NDC({
     latitude: 38.89756,
     longitude: -77.03650,
     providerName: 'KRONOS NDC GATEWAY',
     courrencyCode: 'EUR',
     countryCode: 'US',
     cityCode: 'WAS',
+    language: 'en',
     endpoint: 'kronos.jrtechnologies.com',
-    agency: {
+    airline: {
+        id: 'C9',
+        name: 'Kronos Air',
+    },
+    sender: {
+        id: 'C9',
+        name: 'Kronos Air',
+        pseudoCity: 'A4A',
         IATANumber: '98417900',
-        name: 'Carson Travels',
-        userId: 'ksmith212',
         type: 'TravelManagementCompany',
         email: 'info@carsontravels.com'
     },
-    airline: {
-        id: 'C9',
-        name: 'Kronos Air'
-    }
+    agent: {
+        name: 'Carson Travels',
+        id: 'ksmith212'
+    },
 });
 
-var reqData = [
-    /* RoundTrip with multiple pax */
-    {
-        trips: [{
-            departure: {
-                date: new Date('2016-04-06'),
-                airportCode: 'MUC'
-            },
-            arrival: {
-                airportCode: 'LHR'
-            }
-        }, {
-            departure: {
-                date: new Date('2016-05-06'),
-                airportCode: 'LHR'
-            },
-            arrival: {
-                airportCode: 'MUC'
-            }
-        }],
-        cabin: 'C',
-        travelers: [
-            /* two anonymous adults */
-            {
-                anonymous: true,
-                count: 2,
-                type: 'ADT'
-            },
-            /* three anonymous children */
-            {
-                anonymous: true,
-                count: 3,
-                type: 'CNN'
-            },
-            /* One identified passanger */
-            {
-                key: 'KS1',
-                type: 'ADT',
-                residenceCode: 'US',
-                age: 41,
-                name: {
-                    given: 'John',
-                    middle: 'George',
-                    surname: 'Smith'
-                },
-                profileID: '123',
-                gender: 'Male',
-                fqtvs: [{
-                    airlineID: 'LH',
-                    accountNumber: '9922 2747 1658 222',
-                    programID: 'Miles and More'
-                }],
-                foids: [{
-                    code: 'PT',
-                    definition: 'Passport',
-                    id: '333444666',
-                    issuer: 'US'
-                }],
-                contact: {
-                    email: 'john.george@smith.com'
-                },
-                languages: ['en']
-            }
-        ]
+var usdtravel = new NDC({
+    latitude: 38.89756,
+    longitude: -77.03650,
+    providerName: 'BA NDC GATEWAY',
+    courrencyCode: 'USD',
+    countryCode: 'US',
+    cityCode: 'WAS',
+    language: 'en',
+    endpoint: 'kronos.jrtechnologies.com',
+    airline: {
+        id: 'C9',
+        name: 'Kronos Air',
     },
-    /* OneWay with multiple pax */
-    {
-        trips: [{
-            departure: {
-                date: new Date('2016-03-06'),
-                airportCode: 'CDG'
-            },
-            arrival: {
-                airportCode: 'FRA'
-            }
-        }],
-        cabin: 'C',
-        travelers: [
-            /* two anonymous adults */
-            {
-                anonymous: true,
-                count: 2,
-                type: 'ADT'
-            },
-            /* 1 anonymous children */
-            {
-                anonymous: true,
-                count: 1,
-                type: 'CNN'
-            },
-            /* 1 anonymous infant */
-            {
-                anonymous: true,
-                count: 1,
-                type: 'INF'
-            }
-        ]
+    sender: {
+        id: 'test agent',
+        name: 'test agent',
+        owner: 'BA',
+        pseudoCity: '1F8',
+        IATANumber: '35200421',
+        type: 'TravelAgency',
+        email: 'ndc@usdtravel.com'
     },
-    /* RoundTrip with Calendar - Direct Flight */
-    {
-        trips: [{
-            departure: {
-                date: new Date('2016-02-10'),
-                airportCode: 'FRA'
-            },
-            arrival: {
-                airportCode: 'CDG'
-            },
-            calendar: {
-                before: 3,
-                after: 3
-            }
-        }, {
-            departure: {
-                date: new Date('2016-03-06'),
-                airportCode: 'CDG'
-            },
-            arrival: {
-                airportCode: 'FRA'
-            },
-            calendar: {
-                before: 2,
-                after: 2
-            }
-        }],
-        cabin: 'M',
-        travelers: [
-            /* one anonymous adult */
-            {
-                anonymous: true,
-                count: 1,
-                type: 'ADT'
-            }
-        ]
+    agent: {
+        name: 'John Smith',
+        id: '1980',
+        role: 'Admin'
     },
-    /* RoundTrip with all cabin */
-    {
-        trips: [{
-            departure: {
-                date: new Date('2016-08-27'),
-                airportCode: 'ARN'
-            },
-            arrival: {
-                airportCode: 'BNC'
-            }
-        }, {
-            departure: {
-                date: new Date('2016-09-12'),
-                airportCode: 'BNC'
-            },
-            arrival: {
-                airportCode: 'ARN'
-            }
-        }],
-        travelers: [
-            /* one anonymous adult */
-            {
-                anonymous: true,
-                count: 1,
-                type: 'ADT'
-            }
-        ]
-    }
-];
 
-/*
-var message = ndc.messages.AirShopping(reqData[1]);
+})
+
+var testReqData = {
+    AirShopping: [
+        /* OneWay with multiple pax */
+        {
+            onds: [{
+                flights: [{
+                    departure: {
+                        date: new Date('2016-03-06'),
+                        airportCode: 'CDG'
+                    },
+                    arrival: {
+                        airportCode: 'FRA'
+                    },
+                    airline: this.sender
+                }]
+            }],
+            cabin: 'C',
+            travelers: [
+                /* two anonymous adults */
+                {
+                    anonymous: true,
+                    count: 2,
+                    type: 'ADT'
+                },
+                /* 1 anonymous children */
+                {
+                    anonymous: true,
+                    count: 1,
+                    type: 'CNN'
+                },
+                /* 1 anonymous infant */
+                {
+                    anonymous: true,
+                    count: 1,
+                    type: 'INF'
+                }
+            ]
+        },
+        /* RoundTrip with Calendar - Direct Flight */
+        {
+            onds: [{
+                flights: [{
+                    departure: {
+                        date: new Date('2016-02-10'),
+                        airportCode: 'FRA'
+                    },
+                    arrival: {
+                        airportCode: 'CDG'
+                    },
+                    calendar: {
+                        before: 3,
+                        after: 3
+                    }
+                }]
+            }, {
+                flights: [{
+                    departure: {
+                        date: new Date('2016-03-06'),
+                        airportCode: 'CDG'
+                    },
+                    arrival: {
+                        airportCode: 'FRA'
+                    },
+                    calendar: {
+                        before: 2,
+                        after: 2
+                    }
+                }]
+            }],
+            cabin: 'M',
+            travelers: [
+                /* one anonymous adult */
+                {
+                    anonymous: true,
+                    count: 1,
+                    type: 'ADT'
+                }
+            ]
+        },
+        /* RoundTrip with all cabin */
+        {
+            onds: [{
+                flights: [{
+                    departure: {
+                        date: new Date('2016-08-27'),
+                        airportCode: 'ARN'
+                    },
+                    arrival: {
+                        airportCode: 'BNC'
+                    }
+                }]
+            }, {
+                flight: [{
+                    departure: {
+                        date: new Date('2016-09-12'),
+                        airportCode: 'BNC'
+                    },
+                    arrival: {
+                        airportCode: 'ARN'
+                    }
+                }]
+            }],
+            travelers: [
+                /* one anonymous adult */
+                {
+                    anonymous: true,
+                    count: 1,
+                    type: 'ADT'
+                }
+            ]
+        }
+    ],
+    FlightPrice: [
+        /* OneWay Flight */
+        {
+            onds: [{
+                flights: [{
+                    departure: {
+                        date: new Date('2016-04-06T12:45:00Z'),
+                        airportCode: 'BCN'
+                    },
+                    arrival: {
+                        date: new Date('2016-04-06T14:55:00Z'),
+                        airportCode: 'FRA'
+                    },
+                    airline: {
+                        id: 'C9',
+                        name: 'Kronos Airlines'
+                    },
+                    number: 1127,
+                    aircraftCode: '321',
+                    cabin: 'C'
+                }, {
+                    departure: {
+                        date: new Date('2016-04-06T16:15:00Z'),
+                        airportCode: 'FRA'
+                    },
+                    arrival: {
+                        date: new Date('2016-04-06T17:15:00Z'),
+                        airportCode: 'PRG'
+                    },
+                    airline: {
+                        id: 'C9',
+                        name: 'Kronos Airlines'
+                    },
+                    number: 1398,
+                    aircraftCode: '733',
+                    cabin: 'C'
+                }]
+            }],
+            participants: [{
+                name: 'Travel',
+                id: 'Travel'
+            }],
+            fareCodes: ['BRO'],
+            travelers: [
+                /* one anonymous adult */
+                {
+                    anonymous: true,
+                    count: 1,
+                    type: 'ADT'
+                },
+                /* one anonymous child */
+                {
+                    anonymous: true,
+                    count: 1,
+                    type: 'CHD'
+                }
+            ]
+        },
+        /* RoundTrip Flight */
+        {
+            onds: [{
+                flights: [{
+                    departure: {
+                        date: new Date('2016-04-05T09:05:00Z'),
+                        airportCode: 'ARN'
+                    },
+                    arrival: {
+                        date: new Date('2016-04-05T11:15:00Z'),
+                        airportCode: 'MUC',
+                        airportName: 'Munich International'
+                    },
+                    opCarrier: {
+                        id: 'C9',
+                        name: 'Kronos Airlines'
+                    },
+                    airline: {
+                        id: 'C9',
+                        name: 'Kronos Airlines'
+                    },
+                    number: 2413,
+                    aircraftCode: 'CR9',
+                    aircraftName: 'CR9 - CANADAIR REGIONAL JET 900 JET',
+                    cabin: 'M'
+                }, {
+                    departure: {
+                        date: new Date('2016-05-06T12:40:00Z'),
+                        airportCode: 'MUC',
+                        airportName: 'Munich International'
+                    },
+                    arrival: {
+                        date: new Date('2016-04-05T17:15:00Z'),
+                        airportCode: 'BCN',
+                        airportName: 'Barcelona Airport'
+                    },
+                    airline: {
+                        id: 'C9',
+                        name: 'Kronos Airlines'
+                    },
+                    number: 1812,
+                    aircraftCode: '321',
+                    aircraftName: '321 - AIRBUS INDUSTRIE A321 JET',
+                    cabin: 'M'
+                }]
+            }, {
+                flights: [{
+                    departure: {
+                        date: new Date('2016-07-12T12:45:00Z'),
+                        airportCode: 'BCN',
+                        airportName: 'Barcelona Airport'
+                    },
+                    arrival: {
+                        date: new Date('2016-04-05T11:15:00Z'),
+                        airportCode: 'FRA',
+                        airportName: 'Frankfurt International'
+                    },
+                    opCarrier: {
+                        id: 'C9',
+                        name: 'Kronos Airlines'
+                    },
+                    airline: {
+                        id: 'C9',
+                        name: 'Kronos Airlines'
+                    },
+                    number: 2413,
+                    aircraftCode: 'CR9',
+                    aircraftName: 'CR9 - CANADAIR REGIONAL JET 900 JET',
+                    cabin: 'M'
+                }, {
+                    departure: {
+                        date: new Date('2016-05-06T12:40:00Z'),
+                        airportCode: 'MUC',
+                        airportName: 'Munich International'
+                    },
+                    arrival: {
+                        date: new Date('2016-04-05T17:15:00Z'),
+                        airportCode: 'BCN',
+                        airportName: 'Barcelona Airport'
+                    },
+                    airline: {
+                        id: 'C9',
+                        name: 'Kronos Airlines'
+                    },
+                    number: 1812,
+                    aircraftCode: '321',
+                    aircraftName: '321 - AIRBUS INDUSTRIE A321 JET',
+                    cabin: 'M'
+                }]
+            }],
+            participants: [{
+                name: 'Travel',
+                id: 'Travel'
+            }],
+            fareCodes: ['BRO'],
+            travelers: [
+                /* one anonymous adult */
+                {
+                    anonymous: true,
+                    count: 1,
+                    type: 'ADT'
+                },
+                /* one anonymous child */
+                {
+                    anonymous: true,
+                    count: 1,
+                    type: 'CHD'
+                }
+            ]
+        },
+    ]
+};
+
+var message = kronos.messages.AirShopping(testReqData.AirShopping[0]);
+// var message = usdtravel.messages.FlightPrice(testReqData.FlightPrice[0]);
 require('fs').writeFileSync('/tmp/debug.xml', message.toXML(true, true));
 message.request(function (err, data) {
-*/
-ndc.request('AirShopping', reqData[0], function (err, data) {
     if (err) {
         return console.error(err);
     }

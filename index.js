@@ -5,6 +5,7 @@ var util = require('util');
 var request = require('request');
 var debug = require('./lib/debug');
 var easyxml = new(require('easyxml'))({
+    filterNulls: true,
     unwrappedArrays: true,
     indent: 2
 });
@@ -78,31 +79,20 @@ var NDC = function (config) {
             var messageHandler = require(__dirname + '/lib/messages/' + file);
             var messageData = util._extend({
                 /* Common config */
+                message: name,
                 transactionID: ndc.transactionID,
                 providerName: ndc.config.providerName,
                 latitude: ndc.config.latitude,
                 longitude: ndc.config.longitude,
                 airline: ndc.config.airline,
-                agency: ndc.config.agency,
+                sender: ndc.config.sender,
+                agent: ndc.config.agent,
                 courrencyCode: ndc.config.courrencyCode,
                 countryCode: ndc.config.countryCode,
                 cityCode: ndc.config.cityCode,
+                language: ndc.config.language,
                 now: new Date()
             }, data || {});
-            /*var messageData = Object.keys(data || {}).reduce(function buildMessageData(result, key) {
-        result[key] = data[key];
-        return result;
-      }, {
-        transactionID: ndc.transactionID,
-        providerName: ndc.config.providerName,
-        latitude: ndc.config.latitude,
-        longitude: ndc.config.longitude,
-        airline: ndc.config.airline,
-        agency: ndc.config.agency,
-        courrencyCode: ndc.config.courrencyCode,
-        countryCode: ndc.config.countryCode,
-        cityCode: ndc.config.cityCode
-      });*/
 
             var result = util._extend(messageHandler(messageData),
                 /* XML message attributes */
