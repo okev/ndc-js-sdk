@@ -1,3 +1,4 @@
+'use strict';
 var NDC = require('ndc-js-sdk');
 var kronos = new NDC({
     latitude: 38.89756,
@@ -52,9 +53,8 @@ var usdtravel = new NDC({
         name: 'John Smith',
         id: '1980',
         role: 'Admin'
-    },
-
-})
+    }
+});
 
 var testReqData = {
     AirShopping: [
@@ -69,7 +69,7 @@ var testReqData = {
                     arrival: {
                         airportCode: 'FRA'
                     },
-                    airline: this.sender
+                    airline: usdtravel.config.sender
                 }]
             }],
             cabin: 'C',
@@ -339,8 +339,8 @@ var testReqData = {
     ]
 };
 
-var message = kronos.messages.AirShopping(testReqData.AirShopping[0]);
-// var message = usdtravel.messages.FlightPrice(testReqData.FlightPrice[0]);
+// var message = kronos.messages.AirShopping(testReqData.AirShopping[1]);
+var message = usdtravel.messages.FlightPrice(testReqData.FlightPrice[1]);
 require('fs').writeFileSync('/tmp/debug.xml', message.toXML(true, true));
 message.request(function (err, data) {
     if (err) {
