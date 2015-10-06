@@ -51,7 +51,7 @@ var NDC = function (config) {
                 var responseType = Object.keys(data)[0];
                 if (data[responseType].Errors && data[responseType].Errors.Error) {
                     err = data[responseType].Errors.Error;
-                    err = new Error(((err instanceof Array) ? err[0] : err._) || 'Unknown Error');
+                    err = new Error(((err instanceof Array) ? err[0] : err) || 'Unknown Error');
                 }
 
                 if (err) {
