@@ -7,6 +7,7 @@ For more info go to [https://en.wikipedia.org/wiki/International_Air_Transport_A
 
     ADT adult
     CNN child
+    CHD child
     INF infant
     GVT government
     GST state government
