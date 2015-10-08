@@ -24,8 +24,8 @@ var NDC = function (config) {
     ndc.transactionID = 'TRN12345';
     ndc.echoToken = '8fdb1c621a7a4454aa3360556e7784d5';
 
-    var makeRequest = function (body, cb, prolog) {
-        var url = 'http://' + ndc.config.endpoint + '/dondc';
+    var makeRequest = function (body, cb, prolog, message) {
+        var url = 'http' + (ndc.ssl ? 's' : '') + '://' + ndc.config.endpoint + '/dondc';
         body = (prolog ? XMLProlog : '') + body;
         debug.info('Posting message to %s:\n%s', url, body);
         request({
@@ -34,6 +34,7 @@ var NDC = function (config) {
             body: body,
             headers: {
                 'User-Agent': 'NDC Javascript Wrapper / ' + version,
+                'X-NDC-Method': message,
                 'Content-Type': 'application/xml'
             }
         }, function (err, res, body) {
@@ -141,7 +142,7 @@ var NDC = function (config) {
                     this._forcedBody = body;
                 },
                 request: function (cb, prolog, wrap) {
-                    return makeRequest(wrapBody(wrap, this._forcedBody || this.toXML()), cb, prolog);
+                    return makeRequest(wrapBody(wrap, this._forcedBody || this.toXML()), cb, prolog, name);
                 }
             };
         };
