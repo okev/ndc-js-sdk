@@ -9,6 +9,7 @@ var easyxml = new(require('easyxml'))({
     unwrappedArrays: true,
     indent: 2
 });
+var version = require('./package.json').version;
 var xml2js = new require('xml2js').Parser({
     explicitArray: false
 });
@@ -32,6 +33,7 @@ var NDC = function (config) {
             method: 'POST',
             body: body,
             headers: {
+                'User-Agent': 'NDC Javascript Wrapper / ' + version,
                 'Content-Type': 'application/xml'
             }
         }, function (err, res, body) {
