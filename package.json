@@ -1,30 +1,30 @@
 {
-    "name": "ndc-client",
-    "version": "0.1.1",
-    "description": "IATA NDC-compliant API wrapper",
-    "main": "index.js",
-    "scripts": {
-        "test": "node_modules/jshint/bin/jshint *.js lib/**/*.js && NODE_ENV=test node_modules/mocha/bin/mocha -R spec ./test/*.test.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/iata-ndc/ndc-js-sdk.git"
-    },
-    "author": "Rilke Petrosky Ulloa <xenomuta@gmail.com>",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/iata-ndc/ndc-js/issues"
-    },
-    "homepage": "https://github.com/iata-ndc/ndc-js#readme",
-    "dependencies": {
-        "debug": "^2.2.0",
-        "easyxml": "^1.0.0",
-        "request": "^2.64.0",
-        "xml2js": "^0.4.12"
-    },
-    "devDependencies": {
-        "jshint": "^2.8.0",
-        "mocha": "^2.3.3",
-        "should": "^7.1.0"
-    }
+  "name": "ndc-client",
+  "version": "0.1.2",
+  "description": "IATA NDC-compliant API wrapper",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/jshint/bin/jshint *.js lib/**/*.js && NODE_ENV=test node_modules/mocha/bin/mocha -R spec ./test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iata-ndc/ndc-js-sdk.git"
+  },
+  "author": "Rilke Petrosky Ulloa <xenomuta@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iata-ndc/ndc-js/issues"
+  },
+  "homepage": "https://github.com/iata-ndc/ndc-js#readme",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "easyxml": "^1.0.0",
+    "request": "^2.64.0",
+    "xml2js": "^0.4.12"
+  },
+  "devDependencies": {
+    "jshint": "^2.8.0",
+    "mocha": "^2.3.3",
+    "should": "^7.1.0"
+  }
 }
