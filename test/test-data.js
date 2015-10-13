@@ -397,5 +397,8 @@ TestData.SeatAvailability = [{
         flights: ['FL1']
     }]
 }];
+TestData.ServiceList = [{
+    responseID: 'RE6c07bf8de1a04859bda7a027ad11d665'
+}];
 
 module.exports = TestData;

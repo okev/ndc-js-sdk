@@ -56,7 +56,15 @@ describe('NDC client', function () {
             });
         });
         describe('should handle ServiceList messages', function () {
-            it('pending tests...');
+            it('should receive a successful response with a "DataLists" element', function (done) {
+                var msg = ndc.messages.ServiceList(testData.ServiceList[0]);
+                msg.request(function (err, data) {
+                    should.not.exist(err);
+                    should.exist(data.ServiceListRS.Success);
+                    should.exist(data.ServiceListRS.DataLists);
+                    done();
+                });
+            });
         });
         describe('should handle ServicePrice messages', function () {
             it('pending tests...');
