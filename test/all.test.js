@@ -67,7 +67,15 @@ describe('NDC client', function () {
             });
         });
         describe('should handle ServicePrice messages', function () {
-            it('pending tests...');
+            it('should receive a successful response with a "DataLists" element', function (done) {
+                var msg = ndc.messages.ServicePrice(testData.ServicePrice[0]);
+                msg.request(function (err, data) {
+                    should.not.exist(err);
+                    should.exist(data.ServicePriceRS.Success);
+                    should.exist(data.ServicePriceRS.DataLists);
+                    done();
+                });
+            });
         });
     });
     describe('Order management messages', function () {

@@ -400,5 +400,8 @@ TestData.SeatAvailability = [{
 TestData.ServiceList = [{
     responseID: 'RE6c07bf8de1a04859bda7a027ad11d665'
 }];
+TestData.ServicePrice = [{
+    responseID: 'RE6c07bf8de1a04859bda7a027ad11d665'
+}];
 
 module.exports = TestData;
