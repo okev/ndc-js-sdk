@@ -10,7 +10,7 @@ TestData.config = [
         countryCode: 'US',
         cityCode: 'WAS',
         language: 'en',
-        endpoint: 'kronos.jrtechnologies.com',
+        endpoint: 'http://iata.api.mashery.com/kronos/api',
         airline: {
             id: 'C9',
             name: 'Kronos Air',
@@ -37,7 +37,7 @@ TestData.config = [
         countryCode: 'US',
         cityCode: 'WAS',
         language: 'en',
-        endpoint: 'kronos.jrtechnologies.com',
+        endpoint: 'http://iata.api.mashery.com/kronos/api',
         airline: {
             id: 'C9',
             name: 'Kronos Air',
@@ -229,6 +229,10 @@ TestData.FlightPrice = [
     },
     /* RoundTrip Flight */
     {
+        opCarrier: {
+            id: 'C9',
+            name: 'Kronos Airlines'
+        },
         onds: [{
             flights: [{
                 departure: {
@@ -239,10 +243,6 @@ TestData.FlightPrice = [
                     date: new Date('2016-04-05T11:15:00Z'),
                     airportCode: 'MUC',
                     airportName: 'Munich International'
-                },
-                opCarrier: {
-                    id: 'C9',
-                    name: 'Kronos Airlines'
                 },
                 airline: {
                     id: 'C9',
@@ -283,10 +283,6 @@ TestData.FlightPrice = [
                     date: new Date('2016-04-05T11:15:00Z'),
                     airportCode: 'FRA',
                     airportName: 'Frankfurt International'
-                },
-                opCarrier: {
-                    id: 'C9',
-                    name: 'Kronos Airlines'
                 },
                 airline: {
                     id: 'C9',
@@ -338,5 +334,68 @@ TestData.FlightPrice = [
         ]
     }
 ];
+TestData.SeatAvailability = [{
+    opCarrier: {
+        id: 'C9',
+        name: 'Kronos Airlines'
+    },
+    flightList: [{
+        key: 'FL1',
+        journey: 'PT17H55M',
+        segments: ['SEG1', 'SEG2']
+    }],
+    onds: [{
+        key: 'OID1',
+        flights: [{
+            segmentKey: 'SEG1',
+            departure: {
+                date: new Date('2016-04-06T12:45:00Z'),
+                airportCode: 'BCN',
+                airportName: 'Barcelona Airport'
+            },
+            arrival: {
+                date: new Date('2016-04-06T14:55:00Z'),
+                airportCode: 'FRA',
+                airportName: 'Frankfurt International'
+            },
+            airline: {
+                id: 'C9',
+                name: 'Kronos Airlines'
+            },
+            number: 1127,
+            aircraftCode: '321',
+            aircraftName: '321 - AIRBUS INDUSTRIE A321 JET',
+            classOfService: 'M',
+            detail: 'PT2H10M'
+        }, {
+            segmentKey: 'SEG2',
+            departure: {
+                date: new Date('2016-04-06T16:15:00Z'),
+                airportCode: 'FRA',
+                airportName: 'Frankfurt International'
+            },
+            arrival: {
+                date: new Date('2016-04-06T17:15:00Z'),
+                airportCode: 'PRG',
+                airportName: 'Prague Ruzyne'
+            },
+            airline: {
+                id: 'C9',
+                name: 'Kronos Airlines'
+            },
+            number: 1398,
+            aircraftCode: '733',
+            aircraftName: '733 - BOEING JET',
+            classOfService: 'C',
+            detail: 'PT1H0M'
+        }]
+    }],
+    ondList: [{
+        key: 'OID1',
+        departureCode: 'BCN',
+        arrivalCode: 'PRG',
+        flights: ['FL1']
+    }]
+}];
 
 module.exports = TestData;

@@ -22,10 +22,9 @@ var NDC = function (config) {
     ndc.version = '1.1.5';
     // Ignore where to get these from
     ndc.transactionID = 'TRN12345';
-    ndc.echoToken = '8fdb1c621a7a4454aa3360556e7784d5';
 
     var makeRequest = function (body, cb, prolog, message) {
-        var url = 'http' + (ndc.ssl ? 's' : '') + '://' + ndc.config.endpoint + '/dondc';
+        var url = /^http:/.test(ndc.config.endpoint) ? ndc.config.endpoint : 'http' + (ndc.ssl ? 's' : '') + '://' + ndc.config.endpoint + '/dondc';
         body = (prolog ? XMLProlog : '') + body;
         debug.info('Posting message to %s:\n%s', url, body);
         request({
@@ -33,11 +32,16 @@ var NDC = function (config) {
             method: 'POST',
             body: body,
             headers: {
+                'Authorization-Key': ndc.config.APIAuthKey,
                 'User-Agent': 'NDC Javascript Wrapper / ' + version,
                 'X-NDC-Method': message,
                 'Content-Type': 'application/xml'
             }
         }, function (err, res, body) {
+            if (res.statusCode !== 200) {
+                err = new Error('Invalid API key / request');
+            }
+
             if (err) {
                 debug.error('Error:', err.name, err.message);
                 return cb(err);
@@ -54,6 +58,7 @@ var NDC = function (config) {
                 var responseType = Object.keys(data)[0];
                 if (data[responseType].Errors && data[responseType].Errors.Error) {
                     err = data[responseType].Errors.Error;
+                    err = err._ || err;
                     err = new Error(((err instanceof Array) ? err[0] : err) || 'Unknown Error');
                 }
 
@@ -97,14 +102,15 @@ var NDC = function (config) {
                 now: new Date()
             }, data || {});
 
+            var now = (new Date()).toISOString();
             var result = util._extend(messageHandler(messageData),
                 /* XML message attributes */
                 {
                     _xmlns: 'http://www.iata.org/IATA/EDIST',
                     '_xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
                     '_xsi:schemaLocation': 'http://www.iata.org/IATA/EDIST ../' + name + 'RQ.xsd',
-                    _EchoToken: ndc.echoToken,
-                    _TimeStamp: (new Date()).toISOString(),
+                    _EchoToken: require('crypto').createHash('sha1').update(now).digest().toString('hex'),
+                    _TimeStamp: now,
                     _Version: '1.1.5',
                     _TransactionIdentifier: ndc.transactionID
                 });
