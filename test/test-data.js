@@ -61,6 +61,10 @@ TestData.config = [
 TestData.AirShopping = [
     /* OneWay with multiple pax */
     {
+        pointOfSaleEvent: {
+            code: 9,
+            definition: 'Shop'
+        },
         onds: [{
             flights: [{
                 departure: {
@@ -97,6 +101,10 @@ TestData.AirShopping = [
     },
     /* RoundTrip with Calendar - Direct Flight */
     {
+        pointOfSaleEvent: {
+            code: 9,
+            definition: 'Shop'
+        },
         onds: [{
             flights: [{
                 departure: {
@@ -128,16 +136,36 @@ TestData.AirShopping = [
         }],
         cabin: 'M',
         travelers: [
-            /* one anonymous adult */
+            /* one regognized adult */
             {
-                anonymous: true,
-                count: 1,
-                type: 'ADT'
+                key: 'PAX1',
+                type: 'ADT',
+                residenceCode: 'US',
+                age: {
+                    years: 41
+                },
+                name: {
+                    title: 'MR',
+                    Given: 'Rilke',
+                    Middle: 'Petrosky',
+                    Surname: 'Ulloa'
+                },
+                contact: {
+                    email: 'xenomuta@gmail.com',
+                    phone: '8099973137'
+                },
+                profileID: '123',
+                gender: 'Male',
+
             }
         ]
     },
     /* RoundTrip with all cabin */
     {
+        pointOfSaleEvent: {
+            code: 9,
+            definition: 'Shop'
+        },
         onds: [{
             flights: [{
                 departure: {
@@ -172,6 +200,10 @@ TestData.AirShopping = [
 TestData.FlightPrice = [
     /* OneWay Flight */
     {
+        pointOfSaleEvent: {
+            code: 9,
+            definition: 'Shop'
+        },
         onds: [{
             flights: [{
                 departure: {
@@ -229,6 +261,10 @@ TestData.FlightPrice = [
     },
     /* RoundTrip Flight */
     {
+        pointOfSaleEvent: {
+            code: 9,
+            definition: 'Shop'
+        },
         opCarrier: {
             id: 'C9',
             name: 'Kronos Airlines'
