@@ -80,10 +80,24 @@ describe('NDC client', function () {
     });
     describe('Order management messages', function () {
         describe('should handle OrderCreate messages', function () {
-            it('pending tests...');
+            it('should receive a successful "OrderViewRS" response element', function (done) {
+                var msg = ndc.messages.OrderCreate(testData.OrderCreate[0]);
+                msg.request(function (err, data) {
+                    should.not.exist(err);
+                    should.exist(data.OrderViewRS.Success);
+                    done();
+                });
+            });
         });
         describe('should handle OrderList messages', function () {
-            it('pending tests...');
+            it('should receive a successful "OrderListRS" response element', function (done) {
+                var msg = ndc.messages.OrderList(testData.OrderList[0]);
+                msg.request(function (err, data) {
+                    should.not.exist(err);
+                    should.exist(data.OrderListRS.Success);
+                    done();
+                });
+            });
         });
         describe('should handle OrderRetrieve messages', function () {
             it('pending tests...');

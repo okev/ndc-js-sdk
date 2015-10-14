@@ -11,7 +11,10 @@ var kronos = new NDC(testData.config[0]),
 // var message = usdtravel.messages.FlightPrice(testData.FlightPrice[0]);
 // var message = kronos.messages.SeatAvailability(testData.SeatAvailability[0]);
 // var message = kronos.messages.ServiceList(testData.ServiceList[0]);
-var message = kronos.messages.ServicePrice(testData.ServicePrice[0]);
+// var message = kronos.messages.ServicePrice(testData.ServicePrice[0]);
+// var message = kronos.messages.OrderCreate(testData.OrderCreate[0]);
+// var message = kronos.messages.OrderList(testData.OrderList[0]);
+var message = kronos.messages.OrderRetrieve(testData.OrderRetrieve[0]);
 require('fs').writeFileSync('/tmp/debug.xml', message.toXML(true, true));
 message.request(function (err, data) {
     if (err) {

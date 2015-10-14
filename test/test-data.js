@@ -142,21 +142,29 @@ TestData.AirShopping = [
                 type: 'ADT',
                 residenceCode: 'US',
                 age: {
-                    years: 41
+                    birthDate: '1989-09-09'
                 },
                 name: {
                     title: 'MR',
-                    Given: 'Rilke',
-                    Middle: 'Petrosky',
-                    Surname: 'Ulloa'
+                    given: 'Mithalesh',
+                    middle: 'Ignatius',
+                    surname: 'Yadav'
                 },
                 contact: {
-                    email: 'xenomuta@gmail.com',
-                    phone: '8099973137'
+                    email: 'mithalesh@jrtechnologies.com',
+                    phone: '9867236088'
                 },
                 profileID: '123',
                 gender: 'Male',
-
+                fqtvs: [{
+                    programID: 'kR',
+                    providerID: 'KR',
+                    accountNumber: '992227471658222'
+                }],
+                foids: [{
+                    type: 'PP',
+                    id: '333444666'
+                }]
             }
         ]
     },
@@ -439,5 +447,170 @@ TestData.ServiceList = [{
 TestData.ServicePrice = [{
     responseID: 'RE6c07bf8de1a04859bda7a027ad11d665'
 }];
+TestData.OrderCreate = [
+    /* OneWay with multiple pax */
+    {
+        pointOfSaleEvent: {
+            code: 1,
+            definition: 'Order or buy'
+        },
+        travelers: [
+            /* one regognized adult */
+            {
+                key: 'PAX1',
+                type: 'ADT',
+                residenceCode: 'US',
+                age: {
+                    birthDate: '1989-09-09'
+                },
+                name: {
+                    title: 'MR',
+                    given: 'Mithalesh',
+                    middle: 'Ignatius',
+                    surname: 'Yadav'
+                },
+                contact: {
+                    email: 'mithalesh@jrtechnologies.com',
+                    phone: '9867236088',
+                    address: {
+                        street: '22 Main Street',
+                        city: 'FRA',
+                        postalCode: '14201',
+                        country: 'DE'
+                    }
+                },
+                profileID: '123',
+                gender: 'Male',
+                fqtvs: [{
+                    programID: 'kR',
+                    providerID: 'KR',
+                    accountNumber: '992227471658222'
+                }],
+                foids: [{
+                    type: 'PP',
+                    id: '333444666'
+                }]
+            }
+        ],
+        shoppingRS: {
+            owner: 'C9',
+            id: 'RE1483855093934f3eab41b84010934560',
+            offers: [{
+                owner: 'C9',
+                id: '1',
+                items: [{
+                    owner: 'C9',
+                    id: '1#M#108161700#108170568',
+                    passenger: 'PAX1',
+                    associatedServices: [{
+                        owner: 'C9',
+                        id: 'SV1'
+                    }, {
+                        owner: 'C9',
+                        id: 'SV2'
+                    }]
+                }]
+            }, {
+                owner: 'C9',
+                id: 5,
+                items: [{
+                    owner: 'C9',
+                    id: '1#M#109953106#109939177',
+                    passenger: 'PAX1',
+                    associatedServices: [{
+                        owner: 'C9',
+                        id: 'SV1'
+                    }, {
+                        owner: 'C9',
+                        id: 'SV2'
+                    }]
+                }]
+            }]
+        },
+        payment: {
+            card: {
+                type: 'MC',
+                number: '1111222233334444',
+                series: '584',
+                expiration: '0322'
+            },
+            taxable: true,
+            amount: 201987,
+            payer: {
+                surname: 'Yadav',
+                given: 'Mithalesh',
+                street: '22 Main Street',
+                city: 'FRA',
+                postalCode: '14201',
+                country: 'DE',
+                email: 'mithalesh@jrtechnologies.com'
+            }
+        },
+        services: [{
+            key: 'SV1',
+            owner: 'C9',
+            id: '1011',
+            name: 'Complimentary Meal',
+            feeMethod: 'OC',
+            description: 'Complimentary three course meal and drinks',
+            media: {
+                id: 'iconerror.png',
+                link: 'http://kronos.jrtechnologies.com/ServiceImage/iconerror.png'
+            },
+            settlement: {
+                code: 'AD',
+                definition: 'Internal Airline Document'
+            },
+            price: {
+                total: 0,
+                passengerReference: 'SH1'
+            }
+        }, {
+            key: 'SV2',
+            owner: 'C9',
+            id: '1017',
+            name: 'Meal',
+            feeMethod: 'OC',
+            description: 'Vegetarian Vegan Meal',
+            media: {
+                id: 'int_economy_promo.jpg',
+                link: 'http://kronos.jrtechnologies.com/ServiceImage/int_economy_promo.jpg'
+            },
+            settlement: {
+                code: 'AD',
+                definition: 'Internal Airline Document'
+            },
+            price: {
+                total: 2400,
+                passengerReference: 'SH1'
+            }
+        }]
+    }
+];
+TestData.OrderList = [
+    /* Airline Filter */
+    {
+        pointOfSaleEvent: {
+            code: 1,
+            definition: 'Order or buy'
+        },
+        filter: {
+            airlineID: 'C9'
+        }
+    }
+];
+TestData.OrderRetrieve = [
+    /* Airline Filter */
+    {
+        pointOfSaleEvent: {
+            code: 1,
+            definition: 'Order or buy'
+        },
+        order: {
+            owner: 'C9',
+            id: 'L9A821'
+        }
+    }
+];
 
 module.exports = TestData;
