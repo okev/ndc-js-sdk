@@ -1,6 +1,6 @@
 {
   "name": "ndc-client",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "IATA NDC-compliant API wrapper",
   "main": "index.js",
   "scripts": {
