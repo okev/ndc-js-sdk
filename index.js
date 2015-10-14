@@ -9,11 +9,11 @@ var easyxml = new(require('easyxml'))({
     unwrappedArrays: true,
     indent: 2
 });
-var version = require('./package.json').version;
 var xml2js = new require('xml2js').Parser({
     explicitArray: false
 });
 var XMLProlog = '<?xml version="1.0" encoding="utf-8"?>\n';
+var version = require('./package.json').version;
 
 /* Main module */
 var NDC = function (config) {
@@ -39,7 +39,7 @@ var NDC = function (config) {
             }
         }, function (err, res, body) {
             if (res.statusCode !== 200) {
-                err = new Error('Invalid API key / request');
+                err = new Error('Invalid API key "' + ndc.config.APIAuthKey + '" or bad request');
             }
 
             if (err) {
@@ -58,7 +58,7 @@ var NDC = function (config) {
                 var responseType = Object.keys(data)[0];
                 if (data[responseType].Errors && data[responseType].Errors.Error) {
                     err = data[responseType].Errors.Error;
-                    err = err._ || err;
+                    err = err.$ ? err.$.ShortText : err._ || err;
                     err = new Error(((err instanceof Array) ? err[0] : err) || 'Unknown Error');
                 }
 
