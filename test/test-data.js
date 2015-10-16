@@ -10,7 +10,7 @@ TestData.config = [
         countryCode: 'US',
         cityCode: 'WAS',
         language: 'en',
-        endpoint: 'http://iata.api.mashery.com/kronos/api',
+        endpoint: 'kronos.jrtechnologies.com', // 'http://iata.api.mashery.com/kronos/api',
         airline: {
             id: 'C9',
             name: 'Kronos Air',
@@ -494,7 +494,8 @@ TestData.OrderCreate = [
         ],
         shoppingRS: {
             owner: 'C9',
-            id: 'RE1483855093934f3eab41b84010934560',
+            /*id: 'RE1483855093934f3eab41b84010934560',*/
+            id: 'RE025df8b48b53479fa55d7ff4ff4d4052',
             offers: [{
                 owner: 'C9',
                 id: '1',
@@ -596,6 +597,19 @@ TestData.OrderList = [
         },
         filter: {
             airlineID: 'C9'
+        }
+    }
+];
+TestData.OrderCancel = [
+    /* Order Cancel */
+    {
+        pointOfSaleEvent: {
+            code: 1,
+            definition: 'Order or buy'
+        },
+        order: {
+            owner: 'C9',
+            id: 'L9A821'
         }
     }
 ];

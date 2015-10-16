@@ -21,12 +21,12 @@ describe('NDC client', function () {
                 should(xml.match(/<OriginDestination>/g).length).equal(2);
                 done();
             });
-            it('should receive a successful response with a "ShoppingResponseID" element', function (done) {
+            it('should receive a successful response with a "ShoppingResponseIDs" element', function (done) {
                 var msg = ndc.messages.AirShopping(testData.AirShopping[1]);
                 msg.request(function (err, data) {
                     should.not.exist(err);
                     should.exist(data.AirShoppingRS.Success);
-                    should.exist(data.AirShoppingRS.ShoppingResponseID);
+                    should.exist(data.AirShoppingRS.ShoppingResponseIDs);
                     done();
                 });
             });
@@ -37,7 +37,7 @@ describe('NDC client', function () {
                 msg.request(function (err, data) {
                     should.not.exist(err);
                     should.exist(data.FlightPriceRS.Success);
-                    should.exist(data.FlightPriceRS.ShoppingResponseID);
+                    should.exist(data.FlightPriceRS.ShoppingResponseIDs);
                     should.exist(data.FlightPriceRS.PricedFlightOffers);
                     done();
                 });
@@ -79,7 +79,7 @@ describe('NDC client', function () {
         });
     });
     describe('Order management messages', function () {
-        describe('should handle OrderCreate messages', function () {
+        describe.only('should handle OrderCreate messages', function () {
             it('should receive a successful "OrderViewRS" response element', function (done) {
                 var msg = ndc.messages.OrderCreate(testData.OrderCreate[0]);
                 msg.request(function (err, data) {
@@ -100,10 +100,24 @@ describe('NDC client', function () {
             });
         });
         describe('should handle OrderRetrieve messages', function () {
-            it('pending tests...');
+            it('should receive a successful "OrderListRS" response element', function (done) {
+                var msg = ndc.messages.OrderRetrieve(testData.OrderRetrieve[0]);
+                msg.request(function (err, data) {
+                    should.not.exist(err);
+                    should.exist(data.OrderListRS.Success);
+                    done();
+                });
+            });
         });
         describe('should handle OrderCancel messages', function () {
-            it('pending tests...');
+            it('should receive a successful "OrderListRS" response element', function (done) {
+                var msg = ndc.messages.OrderCancel(testData.OrderCancel[0]);
+                msg.request(function (err, data) {
+                    should.not.exist(err);
+                    should.exist(data.OrderListRS.Success);
+                    done();
+                });
+            });
         });
         describe('should handle ItinReshop messages', function () {
             it('pending tests...');
