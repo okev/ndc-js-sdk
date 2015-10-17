@@ -168,7 +168,7 @@ TestData.AirShopping = [
             }
         ]
     },
-    /* RoundTrip with all cabin */
+    /* OneWay with all cabin */
     {
         pointOfSaleEvent: {
             code: 9,
@@ -177,21 +177,11 @@ TestData.AirShopping = [
         onds: [{
             flights: [{
                 departure: {
-                    date: new Date('2016-08-27'),
-                    airportCode: 'ARN'
+                    date: new Date('2016-04-03'),
+                    airportCode: 'FRA'
                 },
                 arrival: {
-                    airportCode: 'BNC'
-                }
-            }]
-        }, {
-            flight: [{
-                departure: {
-                    date: new Date('2016-09-12'),
-                    airportCode: 'BNC'
-                },
-                arrival: {
-                    airportCode: 'ARN'
+                    airportCode: 'BCN'
                 }
             }]
         }],
@@ -459,12 +449,12 @@ TestData.OrderCreate = [
             {
                 key: 'PAX1',
                 type: 'ADT',
+                anonymous: true,
                 residenceCode: 'US',
-                age: {
+                /*                age: {
                     birthDate: '1989-09-09'
-                },
+                },*/
                 name: {
-                    title: 'MR',
                     given: 'Mithalesh',
                     middle: 'Ignatius',
                     surname: 'Yadav'
@@ -494,29 +484,13 @@ TestData.OrderCreate = [
         ],
         shoppingRS: {
             owner: 'C9',
-            /*id: 'RE1483855093934f3eab41b84010934560',*/
-            id: 'RE025df8b48b53479fa55d7ff4ff4d4052',
+            id: 'RE6c07bf8de1a04859bda7a027ad11d665',
             offers: [{
                 owner: 'C9',
                 id: '1',
                 items: [{
                     owner: 'C9',
-                    id: '1#M#108161700#108170568',
-                    passenger: 'PAX1',
-                    associatedServices: [{
-                        owner: 'C9',
-                        id: 'SV1'
-                    }, {
-                        owner: 'C9',
-                        id: 'SV2'
-                    }]
-                }]
-            }, {
-                owner: 'C9',
-                id: 5,
-                items: [{
-                    owner: 'C9',
-                    id: '1#M#109953106#109939177',
+                    id: '1#M#109939774#109952838',
                     passenger: 'PAX1',
                     associatedServices: [{
                         owner: 'C9',
@@ -609,7 +583,7 @@ TestData.OrderCancel = [
         },
         order: {
             owner: 'C9',
-            id: 'L9A821'
+            id: 'T9A8B1' // 'L9A821'
         }
     }
 ];
